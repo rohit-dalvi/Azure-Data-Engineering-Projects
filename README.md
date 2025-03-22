@@ -138,7 +138,7 @@ Set Up Clusters: Create a cluster with optimized compute power for data processi
 ![image](https://github.com/user-attachments/assets/3a960600-d3a9-42a7-a432-a19492c90b1b)
 
 > Data Transformation
-> -  Perform transformations using PySpark
+> -  Perform transformations using PySpark.
 > -  Clean and enrich data.
 > -  Use  pyspark.sql.functions (broadcast join) for efficient merging of datasets.
 > -  Create newly derived dataframes via suitable and meaningful transformations. 
