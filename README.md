@@ -35,7 +35,7 @@ To achieve the above objectives, this project leverages the following Azure serv
 - **Azure Key Vault:** Used to securely store and manage sensitive information such as connection strings, API keys, and credentials, ensuring data security and compliance.
 
 ## Steps Taken:
-#### Step 1: Prepare Data Sources
+### Step 1: Prepare Data Sources
 On-Premises SQL Server:
 - Install SQL Server Management Studio (SSMS) to manage the database.
 - Made the data set available to be used for further processing and anlaysis.
@@ -50,25 +50,25 @@ Install Self-Hosted Integration Runtime:
 
 ![image](https://github.com/user-attachments/assets/cbd75d96-c104-4131-b6d3-afb032f06990)
 
-#### Step 2: Setup Azure Environment
+### Step 2: Setup Azure Environment
 - Go to Azure Portal → Search for "Resource Groups" → Create a new Resource Group.
 - Choose a region (e.g., UK West, East US) based on compliance and latency.
 
 ![image](https://github.com/user-attachments/assets/4c1b3300-f211-4e4a-8ed1-e59aa6be1851)
 
-#### Step 3: Set up Azure Data Lake Gen2
+### Step 3: Set up Azure Data Lake Gen2
 Create a Storage Account:
 - In the Azure portal, navigate to Storage Accounts and create a new account.
 - Enable Hierarchical Namespace to use it as a Data Lake Gen2.
 
 Create Containers: Create three containers in the storage account:
-- Bronze: For raw data.
-- Silver: For processed data.
-- Gold: For curated data.
-- Parameter: For git.json file used to pass .csv files parameter.
+- **Bronze**: For raw data.
+- **Silver**: For processed data.
+- **Gold**: For curated data.
+- **Parameter**: For git.json file used to pass .csv files parameter.
 
-#### Step 4: Configure Data Connectivity (On-Prem/GitHub to Azure Data Lake)
-On-Prem to Bronze Layer:
+### Step 4: Configure Data Connectivity (On-Prem SQL/GitHub to Azure Data Lake)
+On-Prem SQL to Bronze Layer:
 - Set Up Self-Hosted Integration Runtime (SHIR) for On-Premises Data.
 - In Azure Data Factory (ADF) → Go to Manage → Integration Runtimes
 - Create Self-Hosted Runtime → Download and install on the on-prem SQL Server machine.
@@ -83,7 +83,7 @@ GitHub to Bronze Layer:
 
 ![image](https://github.com/user-attachments/assets/234cc74f-9b9d-4d0c-bd12-2a1532abc5dd)
 
-#### Step 5: Build Data Pipeline in Azure Data Factory
+### Step 5: Build Data Pipeline in Azure Data Factory
 Create Linked Services:
 - On-Premises SQL Server: Use the self-hosted runtime for connectivity.
 - Azure Data Lake Gen2: Connect to the storage account.
@@ -106,7 +106,7 @@ Schedule Triggers:
 Monitor Pipelines:
 - Use Azure Monitor to track pipeline performance and troubleshoot issues.
 
-#### Step 6: Data Transformation in Azure Databricks
+### Step 6: Data Transformation in Azure Databricks
 - Set Up Databricks Workspace
 > Navigate to Azure Databricks → Create a new Databricks Workspace
 - Connect Databricks to ADLS
@@ -114,10 +114,10 @@ Monitor Pipelines:
 
 ![image](https://github.com/user-attachments/assets/cf133bbe-c8c5-4f5a-b4ce-124205bf21a8)
 
-#### Step 7: Transform Data Using PySpark
+### Step 7: Transform Data Using PySpark
 Set Up Clusters: Create a cluster with optimized compute power for data processing.
 
-**Biclycle Manufaturing Notebook:** (_Refer to code in the Repo_)
+**Bicycle Manufacturing Notebook:** (_Refer to code in the Repo_)
 > Data Ingestion:
 > -  Read raw data from the bronze container in Data Lake Gen2.
 
@@ -141,13 +141,13 @@ Set Up Clusters: Create a cluster with optimized compute power for data processi
 > -  Perform transformations using PySpark
 > -  Clean and enrich data.
 > -  Use  pyspark.sql.functions (broadcast join) for efficient merging of datasets.
-> -  Create new derived dataframes via suitable and meaningful transformations. 
+> -  Create newly derived dataframes via suitable and meaningful transformations. 
 > -  Apply window, join, to_timestamp, and rank functions for advanced processing and filtering.
 
 > Data Storage
 > Save the transformed data in Parquet format to the silver container.
 
-#### Step 8: Load Data into Azure Synapse Analytics
+### Step 8: Load Data into Azure Synapse Analytics
 Create an Azure Synapse Analytics Workspace:
 - Navigate to Azure Synapse Analytics → Create a new Synapse Workspace
 - Enable Serverless SQL Pools for querying ADLS data without provisioning a dedicated SQL instance.
@@ -166,15 +166,22 @@ Load Data into Gold Layer:
 Create Views:
 - Create views for business users to access the curated data.
 
-#### Step 9: Data Visualization with Power BI
-- Dowload Power BI Desktop & connect data source to Azure Synapse
+### Step 9: Data Visualization with Power BI
+- Download Power BI Desktop & connect the data source to Azure Synapse
 - Open Power BI → Click Get Data
 - Choose Azure Synapse Analytics
 - Connect to Serverless SQL Pool
 - Build Dashboards and Reports
 - Create visualizations based on Synapse tables
 
-#### Step 10: Implement Monitoring and Alerting Using Azure Monitor
+- Olympic Games Dashboard on Power BI Desktop
+  ![image](https://github.com/user-attachments/assets/ba385654-181d-4525-99ac-d34110ef8eeb)
+
+- Bicycle Manufacturing Company Dashboard on Power BI Desktop
+  ![image](https://github.com/user-attachments/assets/57fa7200-b614-4708-b58b-1129db5cca8f)
+
+
+### Step 10: Implement Monitoring and Alerting Using Azure Monitor
 Set Up Azure Entra ID:
 - Configure role-based access control (RBAC) for users and services.
 
@@ -198,7 +205,7 @@ Enable Azure Monitor:
 
 ![image](https://github.com/user-attachments/assets/6e322fbd-de3a-4163-a239-7c3e422b64cd)
 
-#### Step 11: Testing & Validation
+### Step 11: Testing & Validation
 Test the End-to-End Pipeline:
 - Run the entire automated pipeline with scheduled/tumbling window triggers and validate data at each stage (bronze, silver, gold).
 
@@ -208,11 +215,11 @@ Verify Data Quality:
 Optimize Performance:
 - Fine-tune Databricks clusters, ADF pipelines, and Synapse queries for better performance.
 
-#### Step 12: Deleting Resource Group
+### Step 12: Deleting Resource Group
 Deleting resources after completing the project is a critical step to avoid unnecessary costs and maintain a clean Azure environment. 
 However, it should be done carefully to ensure that no important data or configurations are lost.
 
-#### Challenges Faced
+### Challenges Faced
 
 - Integrating data from multiple sources (e.g., on-premises SQL Server and cloud-based GitHub repositories) due to differences in data formats & structures.
 - Ensuring data quality and consistency across different data sources.
