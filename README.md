@@ -4,11 +4,11 @@ In today's data-driven world, organizations are increasingly relying on data eng
 This project is designed to simulate a real-world scenario where data is ingested from multiple sources, processed, stored, and analyzed to provide meaningful insights. By utilizing Azure's scalable and secure cloud infrastructure, we ensure that the solution is not only efficient but also cost-effective and future-proof.
 
 ## Project Overview & Architecture:
-This end-to-end Azure Data Engineering project focuses on building a scalable and efficient data pipeline to integrate, process, and analyze structured data from two disparate sources, Bicycle manufacturing data (12,000 records) stored in an on-premises SQL Server and Olympic Games data (300 MB) hosted in a GitHub repository. Using Azure Data Factory with a **self-hosted integration runtime**, the pipeline extracts and migrates data to the cloud via **ELT (Extract, Load, Transform)** methodology, leveraging **scheduled triggers** for automation and **monitoring** capabilities to ensure pipeline reliability. The project follows the **Medallion architecture** (Bronze, Silver, Gold layers) to ensure data quality and scalability. 
+This end-to-end Azure Data Engineering project focuses on building a scalable and efficient data pipeline to integrate, process, and analyze structured data from two disparate sources, **BICYCLE MANUFACTURING** data (12,000 records) stored in an on-premises SQL Server and **OLYMPIC GAMES** data (300 MB) hosted in a GitHub repository. Using Azure Data Factory with a **self-hosted integration runtime**, the pipeline extracts and migrates data to the cloud via **ELT (Extract, Load, Transform)** methodology, leveraging **scheduled triggers** for automation and **monitoring** capabilities to ensure pipeline reliability. The project follows the **Medallion architecture** (Bronze, Silver, and Gold layers) to ensure data quality and scalability. 
 
 ![image](https://github.com/user-attachments/assets/a170aa45-c999-4c04-a8b9-a2be026912cd)
 
-Data transformation is performed in **Databricks**, utilizing clusters with optimized compute power, **broadcast joins** for efficient data merging, and advanced functions like **window, map, order, and sort** for data enrichment and cleansing. The transformed data is stored in **Parquet format** for efficient storage and querying. The processed data is then loaded into **Azure Synapse Analytics**, where **serverless SQL pools** are used to create schemas, views, and external tables. Access is granted to admin, and the final curated data is stored in the **Gold layer** for business consumption. 
+Data transformation is performed in **Databricks**, utilizing clusters with optimized compute power, **broadcast joins** for efficient data merging, and advanced functions like **window(), withColumn(), regexp_extract(), and sort()** for data enrichment and cleansing. The transformed data is stored in **Parquet format** for efficient storage and querying. The processed data is then loaded into **Azure Synapse Analytics**, where **serverless SQL pools** are used to create schemas, views, and external tables. Access is granted to the admin, and the final curated data is stored in the **Gold layer** for business consumption. 
 
 The GitHub repository integration ensures seamless access to Olympic Games data, while cost monitoring is implemented across all Azure services to optimize resource utilization and maintain budget control. This project demonstrates expertise in data wrangling, ELT processes, data orchestration, warehousing, and visualization, serving as a comprehensive portfolio piece.
 
@@ -38,7 +38,7 @@ To achieve the above objectives, this project leverages the following Azure serv
 ### Step 1: Prepare Data Sources
 On-Premises SQL Server:
 - Install SQL Server Management Studio (SSMS) to manage the database.
-- Made the data set available to be used for further processing and anlaysis.
+- Made the data set available to be used for further processing and analysis.
 
 ![image](https://github.com/user-attachments/assets/38be04bc-0a43-4dab-a2d4-f9538aa17265)
 
@@ -77,7 +77,7 @@ On-Prem SQL to Bronze Layer:
 ![image](https://github.com/user-attachments/assets/40a00002-e0c0-4dfc-8581-818d9e087f8f)
 
 GitHub to Bronze Layer:
-- In Azure Data Factory, lookup activity will parse the relative URL from the GitHub repository.
+- In Azure Data Factory, the lookup activity will parse the relative URL from the GitHub repository.
 - It points to the sink folder and the files within. For each loop container consists of a dynamic copy data activity.
 - This will extract all the data present in the GitHub folders and pull the .csv files inside it and load them into ADLS.  
 
@@ -90,7 +90,7 @@ Create Linked Services:
 - HTTPS: This linked service connects GitHub's raw files with Data lake storage.
 
 Create a Data Pipeline for Ingestion:
-- Use Lookup Activity to fetch and parse the relative URL from the GitHub repository as well as read schema of the tables from the sql server.
+- Use Lookup Activity to fetch and parse the relative URL from the GitHub repository as well as read the schema of the tables from the sql server.
 - Use For Each Loop Activity to iterate over records dynamically and run on sucess of lookup activity. Embedd a dynamic copy data activity inside the container.
 - Use Copy Data Activity to move data dynamically using parametirized values from SQL Server/Git repository to Azure Data Lake Storage (ADLS).
 - Store raw data in ADLS (Bronze Layer).
@@ -125,7 +125,7 @@ Set Up Clusters: Create a cluster with optimized compute power for data processi
 > -  Perform transformations using PySpark
 > -  Clean and enrich data.
 > -  Apply withcolumn, regexp_replace, agg, groupBy, and sort functions for advanced processing.
-> -  Create basic visuals for the transformed dataframes. 
+> -  Create basic visuals for the transformed data frames. 
 
 > Data Storage:
 > -  Save the transformed data in Parquet format to the silver container.
@@ -150,7 +150,7 @@ Set Up Clusters: Create a cluster with optimized compute power for data processi
 ### Step 8: Load Data into Azure Synapse Analytics
 Create an Azure Synapse Analytics Workspace:
 - Navigate to Azure Synapse Analytics → Create a new Synapse Workspace
-- Enable Serverless SQL Pools for querying ADLS data without provisioning a dedicated SQL instance.
+- Enable serverless SQL pools to query ADLS data without provisioning a dedicated SQL instance.
 
 ![image](https://github.com/user-attachments/assets/ee48270e-fbfe-45e1-ba30-d6ea3f2c8d1e)
 
@@ -223,8 +223,8 @@ However, it should be done carefully to ensure that no important data or configu
 
 - Integrating data from multiple sources (e.g., on-premises SQL Server and cloud-based GitHub repositories) due to differences in data formats & structures.
 - Ensuring data quality and consistency across different data sources.
-- Managing access for on-premise and cloud user with securiity credentials in Entra ID and key vault.
-- Setting parameters for dynamic parsing and migration of source files to sink folder using json script.
+- Managing access for on-premise and cloud users with security credentials in Entra ID and key vault.
+- Setting parameters for dynamic parsing and migration of source files to sink folder using JSON script.
 - Mounting the storage account to azure data lake bronze container.
 - Creating external tables in synapse analytics using CETAS which required scope credential, data source link, file formats etc.
 - Integration of various azure services and applications, their linkage for effecient assembly.
